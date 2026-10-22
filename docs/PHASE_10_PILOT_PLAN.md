@@ -1,0 +1,92 @@
+# PHASE 10 — CONTROLLED PILOT DEPLOYMENT PLAN
+
+> **Sanjivani (Health Memory Agent)**  
+> **Document:** Staged Rollout, Clinical Safety Protocols, and Pilot Governance  
+> **Target Audience:** Pilot Coordinators, Clinical Advisors, Ethics Review Board  
+> **Date:** October 2026  
+
+---
+
+## 1. Pilot Staging & Progressive Rollout Strategy
+
+To rigorously validate user experience, data integrity, and operational safety, Sanjivani adopts a three-stage progressive pilot framework:
+
+```
++----------------------------------------------------------------------------------------+
+|  Stage A: Internal Validation   | Stage B: Supervised Family Trial | Stage C: Society Pilot  |
+|  Duration: 2 Weeks              | Duration: 4 Weeks                | Duration: 8 Weeks       |
+|  Participants: 10 Engineers/Doc | Participants: 30 Families        | Participants: 1 Society |
+|  Data: Synthetic + Edge Cases   | Data: Verified Personal Records  | Data: Community Network |
++----------------------------------------------------------------------------------------+
+```
+
+### Inviolable Safety Invariant Across All Stages
+**NO REAL EMERGENCY CALLS (112 / AMBULANCE DISPATCH):**  
+Throughout Stages A, B, and C, the emergency response module remains strictly operating in **Demo Mode / Simulated Handoff**. Users are formally instructed during onboarding: *"Sanjivani does NOT provide real emergency dispatch. In life-threatening emergencies, dial 112 immediately."*
+
+---
+
+## 2. Detailed Stage Specifications
+
+### Stage A: Internal Validation & Chaos Testing (Weeks 1–2)
+- **Cohort:** 5–10 project engineers, clinical advisors, and QA automation specialists.
+- **Scope:** Complete end-to-end verification of all 12 user journeys.
+- **Key Objectives:**
+  1. Stress-test offline mutation queues with intermittent connectivity simulations.
+  2. Test OCR entity extraction across 100+ messy, skewed, and low-contrast prescription scans.
+  3. Validate zero-hallucination guardrails on Gemini AI health memory responses.
+  4. Perform chaos restart of backend containers during active medication generation.
+- **Exit Criteria:** 100% test pass rate, 0 unhandled 500 server errors, 0 cross-family tenant leaks.
+
+### Stage B: Supervised Family Usability Pilot (Weeks 3–6)
+- **Cohort:** 25–30 consenting family units (approx. 80–100 individual patient profiles), prioritizing families with elderly members requiring daily medication regimens.
+- **Scope:**
+  - Prescription upload and human review workflow.
+  - Medication schedule tracking and adherence logging.
+  - Doctor-ready PDF summary generation for clinical appointments.
+  - Offline record access in clinics with weak mobile network coverage.
+- **Governance:** Dedicated WhatsApp/phone support desk with 15-minute response SLA.
+- **Exit Criteria:** > 80% daily medication adherence logging, 0 data loss incidents, positive feedback on doctor summary readability from consulting physicians.
+
+### Stage C: Restricted Community & Society Pilot (Weeks 7–14)
+- **Cohort:** 1 gated residential society or apartment complex (150–200 participating households).
+- **Scope:**
+  - Community group onboarding and gatekeeper verification.
+  - Non-emergency elderly assistance requests (medicine pickup, grocery delivery).
+  - Mutual blood donor coordination with masked PII.
+  - Family health memory and medication adherence.
+- **Exit Criteria:** Active volunteer fulfillment of assistance requests within 60 minutes; zero clinical misinformation reported in community forums.
+
+---
+
+## 3. Participant Eligibility & Consent Protocols
+
+### 3.1 Eligibility Criteria
+1. Age 18+ for primary family account holder.
+2. Smartphone running modern browser (Chrome 110+, Safari 16+, Firefox 110+).
+3. Signed Informed Consent Form outlining pilot boundaries and data rights under DPDP Act 2023.
+4. Willingness to provide weekly usability feedback.
+
+### 3.2 Exclusion Criteria
+1. Patients currently experiencing acute, unstable medical emergencies requiring continuous telemetry monitoring.
+2. Unaccompanied minors without verified parental/guardian consent.
+
+---
+
+## 4. Support Escalation & Incident Response SLAs
+
+| Severity | Definition | Response SLA | Resolution SLA |
+| :--- | :--- | :---: | :---: |
+| **P1 - Critical** | Data corruption, authentication failure, cross-tenant data leak | 15 Minutes | 2 Hours |
+| **P2 - High** | Medication occurrence generation failure, OCR queue stalled | 1 Hour | 6 Hours |
+| **P3 - Medium** | UI cosmetic glitch, appointment reminder delayed | 4 Hours | 24 Hours |
+| **P4 - Low** | General usability question, feature suggestion | 24 Hours | 3 Business Days |
+
+---
+
+## 5. Pilot Termination & Rollback Criteria
+The pilot will be immediately paused or rolled back if any of the following occur:
+1. Any cross-tenant data leakage where one family accesses records of another.
+2. Any clinical adverse event resulting from incorrect medication timing generated by the system.
+3. Systemic data corruption affecting > 1% of stored medical documents.
+4. Formal request by participant to terminate their trial (honored within 24 hours via full data export and deletion).

@@ -1,0 +1,222 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: var(--spacing-12) 0 var(--spacing-8);
+}
+
+.heroBadge {
+  display: inline-block;
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-4);
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 var(--spacing-4);
+}
+
+.heroSubtitle {
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
+  margin: 0 0 var(--spacing-4);
+}
+
+.heroDescription {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  max-width: 44rem;
+  margin: 0 auto;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ── Status ───────────────────────────────────────────────── */
+.statusSection {
+  max-width: 36rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.statusCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.statusHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4) var(--spacing-5);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.statusLabel {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.statusList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-5);
+  font-size: var(--font-size-sm);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.statusItem:last-child {
+  border-bottom: none;
+}
+
+.statusItemLabel {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-sm);
+}
+
+.statusOperational {
+  background-color: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.statusPending {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning);
+}
+
+.statusPlanned {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-tertiary);
+}
+
+/* ── Roadmap ──────────────────────────────────────────────── */
+.roadmapSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.phaseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.phaseCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.phaseCard:hover {
+  border-color: var(--color-primary-muted);
+  box-shadow: var(--shadow-sm);
+}
+
+.phaseNumber {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.phaseTitle {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.phaseDescription {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ── Dev Note ─────────────────────────────────────────────── */
+.devNote {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4) var(--spacing-5);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.devNote p {
+  margin: 0;
+}
+
+.devNote code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+}

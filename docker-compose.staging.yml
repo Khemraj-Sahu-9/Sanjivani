@@ -1,0 +1,71 @@
+# ==============================================================================
+# Sanjivani (Health Memory Agent) — Staging Multi-Container Orchestration
+# ==============================================================================
+# Deploys both frontend (Nginx SPA + Reverse Proxy) and backend (Express API)
+# in an isolated Docker network with health checks and volume isolation.
+#
+# Usage:
+#   docker compose -f docker-compose.staging.yml --env-file .env.staging up -d
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: sanjivani-staging-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=staging
+      - PORT=3001
+      - DEMO_MODE=${DEMO_MODE:-true}
+      - SUPABASE_URL=${SUPABASE_URL:-}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:-}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - LIVE_TEST_MODE_ENABLED=${LIVE_TEST_MODE_ENABLED:-false}
+      - LIVE_TEST_TELEPHONY_PROVIDER=${LIVE_TEST_TELEPHONY_PROVIDER:-none}
+      - LIVE_TEST_MAX_RECIPIENTS=${LIVE_TEST_MAX_RECIPIENTS:-3}
+      - LIVE_TEST_COOLDOWN_SECONDS=${LIVE_TEST_COOLDOWN_SECONDS:-30}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:8080}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - HOSPITAL_INTEGRATION_MODE=simulated
+      - ABDM_ENV=sandbox
+    ports:
+      - "3001:3001"
+    networks:
+      - sanjivani-staging-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+      args:
+        - VITE_API_BASE_URL=""
+    container_name: sanjivani-staging-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - sanjivani-staging-net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/nginx-health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+networks:
+  sanjivani-staging-net:
+    driver: bridge

@@ -1,0 +1,59 @@
+# ==============================================================================
+# Sanjivani (Health Memory Agent) — Backend Production/Staging Dockerfile
+# ==============================================================================
+# Multi-stage build providing minimal attack surface and small image size.
+# Stage 1: Build TypeScript into dist/
+# Stage 2: Production runtime with non-root user and healthcheck probe
+# ==============================================================================
+
+# ---- Stage 1: Builder ----
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Copy root workspace manifests
+COPY package*.json ./
+COPY backend/package*.json ./backend/
+
+# Install all dependencies including devDependencies for build
+RUN npm ci --workspace=backend
+
+# Copy backend source code and config
+COPY backend/tsconfig.json ./backend/
+COPY backend/src ./backend/src
+
+# Compile TypeScript
+RUN npm run build --workspace=backend
+
+# ---- Stage 2: Runtime ----
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=staging
+ENV PORT=3001
+
+# Install curl for container health check
+RUN apk add --no-cache curl
+
+# Copy root package manifests
+COPY package*.json ./
+COPY backend/package*.json ./backend/
+
+# Install only production dependencies
+RUN npm ci --workspace=backend --only=production
+
+# Copy compiled JavaScript from builder
+COPY --from=builder /app/backend/dist ./backend/dist
+
+# Security: Run as unprivileged node user
+USER node
+
+EXPOSE 3001
+
+# Container healthcheck using liveness probe
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD curl -f http://localhost:3001/api/health || exit 1
+
+# Start the Express server
+CMD ["node", "backend/dist/server.js"]

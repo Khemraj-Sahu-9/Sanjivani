@@ -1,0 +1,17 @@
+{
+  "name": "Sanjivani — Health Memory Agent",
+  "short_name": "Sanjivani",
+  "description": "AI-powered healthcare record management, offline health access, and family medical synchronization",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0284c7",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
