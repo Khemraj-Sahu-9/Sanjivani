@@ -6,6 +6,7 @@
 .env
 .env.*
 !.env.example
+.vercel
 
 # Dependencies and build output
 node_modules/

@@ -77,7 +77,8 @@ export const documentApiService = {
   },
 
   getDocumentFileUrl(documentId: string): string {
-    const baseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+    const rawBaseUrl = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+    const baseUrl = rawBaseUrl.replace(/\/+$/, '');
     return `${baseUrl}/api/families/documents/file/${documentId}`;
   },
 

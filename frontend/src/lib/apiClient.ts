@@ -6,7 +6,8 @@
  * Supports JSON requests and multipart/form-data uploads.
  */
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+const RAW_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:3001';
+const BASE_URL = RAW_BASE_URL.replace(/\/+$/, '');
 
 export interface ApiResponse<T> {
   data: T | null;

@@ -31,14 +31,69 @@ export const app = express();
 app.use(helmet());
 
 // ── CORS ──────────────────────────────────────────────────────────
+const allowedOrigins = config.frontendUrl
+  .split(',')
+  .map((o) => o.trim().replace(/\/+$/, ''))
+  .filter(Boolean);
+
+const isAllowedOrigin = (origin: string | undefined): boolean => {
+  // Allow non-browser requests (health checks, server-to-server, curl)
+  if (!origin) return true;
+  const normalized = origin.trim().replace(/\/+$/, '');
+  if (allowedOrigins.includes(normalized)) return true;
+
+  // In non-production environments, allow localhost / 127.0.0.1
+  if (!config.isProduction && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalized)) {
+    return true;
+  }
+
+  // If any allowed origin contains .vercel.app, permit Vercel preview deployments
+  if (
+    allowedOrigins.some((ao) => ao.includes('.vercel.app')) &&
+    /^https:\/\/[a-zA-Z0-9_.-]+\.vercel\.app$/.test(normalized)
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
 app.use(
   cors({
-    origin: config.frontendUrl,
+    origin: (origin, callback) => {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true);
+      } else {
+        logger.warn(`[CORS] Blocked request from unauthorized origin: ${origin}`);
+        callback(null, false);
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   })
 );
+
+// ── Root & Deployment Health Verification ─────────────────────────
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    name: 'Sanjivani — AI Health Memory Agent API',
+    status: 'ok',
+    version: '0.0.1',
+    environment: config.nodeEnv,
+    demo_mode: config.isDemoMode,
+    health: '/api/health',
+  });
+});
+
+app.get('/health', (_req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    environment: config.nodeEnv,
+    demo_mode: config.isDemoMode,
+  });
+});
 
 // ── Body parsers ──────────────────────────────────────────────────
 app.use(express.json({ limit: '10mb' }));

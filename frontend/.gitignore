@@ -1,0 +1,10 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+.vercel
+
+# Dependencies and build output
+node_modules/
+dist/
+*.tsbuildinfo

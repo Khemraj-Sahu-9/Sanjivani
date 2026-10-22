@@ -9,12 +9,15 @@
 .env.test.local
 .env.production.local
 .env.*.local
+.vercel
 backend/.env
 backend/.env.*
 !backend/.env.example
+backend/.vercel
 frontend/.env
 frontend/.env.*
 !frontend/.env.example
+frontend/.vercel
 *.pem
 *.key
 *.cert
